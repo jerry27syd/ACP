@@ -41,10 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConstantValue.cs" />
     <Compile Include="ListGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimplePast.cs" />
+    <Compile Include="VerbTense.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

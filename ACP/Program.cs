@@ -16,9 +16,9 @@ namespace ACP
 
             var verb = new List<string>();
 
-            verb.Add(SimplePast.ConvertToSimplePastTense("make"));
-            verb.Add(SimplePast.ConvertToSimplePastTense("eat"));
-            verb.Add(SimplePast.ConvertToSimplePastTense("book"));
+            verb.Add(VerbTense.ConvertToSimplePast("bid"));
+            verb.Add(VerbTense.ConvertToSimplePast("eat"));
+            verb.Add(VerbTense.ConvertToSimplePast("book"));
 
             var subject = new List<string>();
             subject.Add("a book");

@@ -8,9 +8,10 @@ namespace ACP
 {
     public class ConstantValue
     {
-        public const string IrregularVerb =
-            @"Infinitive|Simple Past|Past Participle
-alight|alighted, alit|alighted, alit
+        #region Irregular Verb Constant
+
+        public const string IrregularVerbs =
+            @"alight|alighted, alit|alighted, alit
 arise|arose|arisen
 awake|awoke, awaked|awoken, awaked
 be|was, were|been
@@ -202,5 +203,45 @@ win|won|won
 wind|wound|wound
 wring|wrung|wrung
 write|wrote|written";
+
+        #endregion
+
+        public static List<dynamic> GetIrregularVerbs()
+        {
+            return ParseData("IrregularVerbs", IrregularVerbs);
+        }
+
+        public static List<dynamic> ParseData(string type, string str)
+        {
+            var ls = new List<dynamic>();
+
+            if (!string.IsNullOrWhiteSpace(str))
+            {
+                var items = str.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+                ls.AddRange(items.Select(item => ParseItem(type, item)));
+            }
+            return ls;
+        }
+
+        public static dynamic ParseItem(string type, string str)
+        {
+            var fields = str.Split('|');
+
+            if ("IrregularVerbs".Equals(type, StringComparison.OrdinalIgnoreCase))
+            {
+                if (fields.Length != 3)
+                {
+                    fields = Enumerable.Repeat(string.Empty, 3).ToArray();
+                }
+                return new
+                    {
+                        Infinitive = fields[0].Trim(),
+                        SimplePast = fields[1].Trim(),
+                        PastParticiple = fields[2].Trim(),
+                    };
+            }
+
+            return new object();
+        }
     }
 }
