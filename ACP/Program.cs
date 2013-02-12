@@ -19,34 +19,35 @@ namespace ACP
 
             var verb = new List<string>();
 
-            verb.Add("make");
-            verb.Add("study");
+            verb.Add("makes");
+            verb.Add("studies");
 
             var subject = new List<string>();
-            subject.Add("book");
-            subject.Add("cake");
-            subject.Add("cake");
+            subject.Add("a book");
+            subject.Add("a cake");
+            subject.Add("a cake");
 
 
             var lists = new List<List<string>>();
 
             lists.Add(noun);
-            // lists.Add(verb);
-            //lists.Add(subject);
+            lists.Add(verb);
+            lists.Add(subject);
+
+
             var indexer = new Indexer(lists);
 
 
             while (!indexer.End)
             {
-                foreach (var index in indexer.Indices)
+                for (int i = 0; i < indexer.Indices.Count; i++)
                 {
-                    Console.Write(index + " ");
+                    var index = indexer.Indices[i];
+                    Console.Write(lists[i][index] + " ");
                 }
                 Console.WriteLine();
-
                 indexer.Increment();
             }
-
 
             Console.ReadKey();
         }
@@ -54,14 +55,14 @@ namespace ACP
 
     public class Indexer
     {
-        private List<int> limits = new List<int>();
+        public List<int> Limits = new List<int>();
         public List<int> Indices = new List<int>();
 
         public Indexer(IEnumerable<IEnumerable<object>> items)
         {
             foreach (var item in items)
             {
-                limits.Add(item.Count());
+                Limits.Add(item.Count());
                 Indices.Add(0);
             }
         }
@@ -72,13 +73,13 @@ namespace ACP
         {
             if (End) return;
             int tryAdd = Indices[index] + value;
-            if (tryAdd >= limits[index])
+            if (tryAdd >= Limits[index])
             {
-                Indices[index] = tryAdd%limits[index];
+                Indices[index] = tryAdd%Limits[index];
                 var nextIndex = index + 1;
                 if (nextIndex < Indices.Count)
                 {
-                    tryAdd = Indices[index]/limits[index];
+                    tryAdd = tryAdd/Limits[index];
                     index++;
                     Increment(tryAdd, index);
                 }
@@ -89,7 +90,7 @@ namespace ACP
             }
             else
             {
-                Indices[index] = tryAdd%limits[index];
+                Indices[index] = tryAdd;
             }
         }
     }
