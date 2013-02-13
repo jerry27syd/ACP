@@ -5,6 +5,13 @@ namespace ACP
 {
     internal class Program
     {
+        public static bool HasDefiniton(string grammar)
+        {
+            var x = grammar.Split('(');
+
+            return x.Length > 0;
+        }
+
         private static void Main(string[] args)
         {
             var lists = new List<List<string>>();
@@ -24,11 +31,43 @@ namespace ACP
             subject.Add("a book");
             subject.Add("a cake");
             subject.Add("a cake");
-            lists.Add(noun);
-            lists.Add(verb);
-            lists.Add(subject);
 
-            new ListGenerator(lists).Generate().ForEach(Console.WriteLine);
+
+            ConstantValue.GetGrammars().ForEach(c =>
+                {
+                    foreach (var symbol in c.Value.Split('+'))
+                    {
+                        var trimedSymbol = symbol.Trim();
+                        if (HasDefiniton(trimedSymbol))
+                        {
+                            trimedSymbol = trimedSymbol.Split('(')[0];
+                        }
+                        if (trimedSymbol == "NOUN")
+                        {
+                            lists.Add(noun);
+                        }
+                        else if (trimedSymbol == "SUBJECT")
+                        {
+                            lists.Add(subject);
+                        }
+                        else if (trimedSymbol == "VERB")
+                        {
+                            foreach (var ve in verb)
+                            {
+                            }
+
+                            lists.Add(verb);
+                        }
+                        else
+                        {
+                            lists.Add(new List<string>() {trimedSymbol});
+                        }
+                    }
+                    new ListGenerator(lists).Generate().ForEach(Console.WriteLine);
+                    Console.WriteLine("---");
+                    lists.Clear();
+                });
+
 
             Console.ReadKey();
         }

@@ -211,6 +211,20 @@ write|wrote|written";
             return ParseData("IrregularVerbs", IrregularVerbs);
         }
 
+        #region Grammar
+
+        public const string Grammars =
+            @"NOUN + VERB + SUBJECT
+NOUN + have(Subject Tense) + VERB(Past Participle) + SUBJECT
+NOUN + be(Subject Tense) + VERB(Simple Past)
+";
+
+        #endregion
+
+        public static List<dynamic> GetGrammars()
+        {
+            return ParseData("Grammars", Grammars);
+        }
         public static List<dynamic> ParseData(string type, string str)
         {
             var ls = new List<dynamic>();
@@ -229,9 +243,10 @@ write|wrote|written";
 
             if ("IrregularVerbs".Equals(type, StringComparison.OrdinalIgnoreCase))
             {
-                if (fields.Length != 3)
+                const int length = 3;
+                if (fields.Length != length)
                 {
-                    fields = Enumerable.Repeat(string.Empty, 3).ToArray();
+                    fields = Enumerable.Repeat(string.Empty, length).ToArray();
                 }
                 return new
                     {
@@ -239,6 +254,18 @@ write|wrote|written";
                         SimplePast = fields[1].Trim(),
                         PastParticiple = fields[2].Trim(),
                     };
+            }
+            if ("Grammars".Equals(type, StringComparison.OrdinalIgnoreCase))
+            {
+                const int length = 1;
+                if (fields.Length != length)
+                {
+                    fields = Enumerable.Repeat(string.Empty, length).ToArray();
+                }
+                return new
+                {
+                    Value = fields[0].Trim()
+                };
             }
 
             return new object();

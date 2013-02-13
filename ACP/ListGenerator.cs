@@ -64,5 +64,22 @@ namespace ACP
             }
             return rtVal;
         }
+        public List<string> GenerateSentances()
+        {
+            var rtVal = new List<string>();
+            while (!End)
+            {
+                var str = string.Empty;
+                for (int i = 0; i < _indices.Count; i++)
+                {
+                    int index = _indices[i];
+
+                    str += _inputList[i][index] + " ";
+                }
+                rtVal.Add(str);
+                Increment();
+            }
+            return rtVal;
+        }
     }
 }
