@@ -8,9 +8,9 @@ namespace ACP
         private readonly List<int> _indices = new List<int>();
         private readonly List<int> _limits = new List<int>();
 
-        private readonly List<List<string>> _inputList = new List<List<string>>();
+        private readonly List<WordCollection> _inputList = new List<WordCollection>();
 
-        public ListGenerator(List<List<string>> inputList)
+        public ListGenerator(List<WordCollection> inputList)
         {
             foreach (var item in inputList)
             {
@@ -53,11 +53,23 @@ namespace ACP
             while (!End)
             {
                 var str = string.Empty;
+                var LastType = new Word(string.Empty);
+
                 for (int i = 0; i < _indices.Count; i++)
                 {
                     int index = _indices[i];
 
-                    str += _inputList[i][index] + " ";
+                    if (LastType.Type == "SUBJECT")
+                    {
+                        str += VerbTense.ConvertToPresent(LastType,_inputList[i][index].Value )+ " ";
+                    }
+                    else
+                    {
+                        str += _inputList[i][index].Value + " ";
+                    }
+
+                    LastType.Type = _inputList[i].Type;
+                    LastType.Value = _inputList[i][index].Value;
                 }
                 rtVal.Add(str);
                 Increment();

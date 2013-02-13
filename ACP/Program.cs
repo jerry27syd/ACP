@@ -14,24 +14,27 @@ namespace ACP
 
         private static void Main(string[] args)
         {
-            var lists = new List<List<string>>();
+            var lists = new List<WordCollection>();
+            var subject = new WordCollection();
 
-            var noun = new List<string>();
-            noun.Add("Jerry");
-            noun.Add("Petter");
-            noun.Add("John");
+            subject.Add(new Word("I"));
+            subject.Add(new Word("They"));
+            subject.Add(new Word("She"));
+            subject.Add(new Word("Jerry"));
+            subject.Type = "SUBJECT";
 
-            var verb = new List<string>();
+            var verb = new WordCollection();
+            verb.Add(new Word("is"));
+            verb.Add(new Word("eat"));
+            verb.Add(new Word("book"));
+            verb.Type = "VERB";
 
-            verb.Add(VerbTense.ConvertToSimplePast("bid"));
-            verb.Add(VerbTense.ConvertToSimplePast("eat"));
-            verb.Add(VerbTense.ConvertToSimplePast("book"));
+            var noun = new WordCollection();
 
-            var subject = new List<string>();
-            subject.Add("a book");
-            subject.Add("a cake");
-            subject.Add("a cake");
-
+            noun.Add(new Word("cake"));
+            noun.Add(new Word("rice"));
+            noun.Type = "NOUN";
+            
 
             ConstantValue.GetGrammars().ForEach(c =>
                 {
@@ -52,15 +55,11 @@ namespace ACP
                         }
                         else if (trimedSymbol == "VERB")
                         {
-                            foreach (var ve in verb)
-                            {
-                            }
-
                             lists.Add(verb);
                         }
                         else
                         {
-                            lists.Add(new List<string>() {trimedSymbol});
+                            lists.Add(new WordCollection() {new Word(trimedSymbol)});
                         }
                     }
                     new ListGenerator(lists).Generate().ForEach(Console.WriteLine);

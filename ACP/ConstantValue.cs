@@ -214,9 +214,9 @@ write|wrote|written";
         #region Grammar
 
         public const string Grammars =
-            @"NOUN + VERB + SUBJECT
-NOUN + have(Subject Tense) + VERB(Past Participle) + SUBJECT
-NOUN + be(Subject Tense) + VERB(Simple Past)
+            @"SUBJECT + VERB + NOUN
+NOUN + have(verb) + VERB(Past Participle) + SUBJECT
+NOUN + be(verb) + VERB(Simple Past)
 ";
 
         #endregion
@@ -225,6 +225,7 @@ NOUN + be(Subject Tense) + VERB(Simple Past)
         {
             return ParseData("Grammars", Grammars);
         }
+
         public static List<dynamic> ParseData(string type, string str)
         {
             var ls = new List<dynamic>();
